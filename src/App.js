@@ -1,8 +1,9 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Login from "./Pages/Authentication/Login";
 import Register from "./Pages/Authentication/Register";
+import Home from "./Pages/Home/Home";
+import RequiredAuth from "./Pages/Authentication/RequiredAuth";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/home" element={<RequiredAuth><Home /></RequiredAuth>} />
       </Routes>
     </div>
   );
