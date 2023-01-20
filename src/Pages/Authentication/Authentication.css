@@ -1,0 +1,38 @@
+.login {
+  min-height: 100vh;
+}
+input {
+  width: 300px;
+}
+.login-input {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding-top: 20%;
+  padding-bottom: 20%;
+}
+input {
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: groove;
+  background-color: #eee;
+}
+
+input:focus {
+  outline: none;
+}
+.login-btn {
+  border: none;
+  background-color: #0f172a;
+  color: white;
+}
+.login-btn:hover {
+  background-color: #ffa800;
+}
+.navLink {
+  text-decoration: none;
+  color: #0f172a;
+}
+.navLink:hover {
+  text-decoration: none;
+  color: #ffa800;
+}
