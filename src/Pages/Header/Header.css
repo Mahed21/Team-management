@@ -1,0 +1,15 @@
+.toggle {
+  background-color: #fea701;
+}
+.nav-item a {
+  color: black;
+  text-decoration: none;
+}
+.navbar-brand a {
+  color: black;
+  text-decoration: none;
+}
+.logo {
+  height: 80px;
+  width: 80px;
+}

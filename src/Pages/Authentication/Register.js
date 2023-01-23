@@ -1,31 +1,41 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import useToken from "../../hooks/useToken";
+import React, { useState } from "react";
+
+import { NavLink, useNavigate } from "react-router-dom";
+
 import loginImage from "../../image/login.png";
+import UseAuth from "../Context/UseAuth";
 
 const Register = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  let from = location.state?.from?.pathname || "/";
-  const [user, setUser] = useState('');
-  let signInError;
+  const { emailPassSignIn } = UseAuth();
+  let navigate = useNavigate();
+  const [isUser, setIsUser] = useState("");
+  const [userInfo, setUserInfo] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [confirmPassword, setConfirmPassowrd] = useState("");
+  const [passWord, setPassword] = useState("");
+  // const [isTeam, setIsTeam] = useState("team");
+  const [error, setError] = useState("");
 
-  const { register, formState: { errors }, handleSubmit } = useForm();
+  //console.log(token);
+  // const isUserFunction = () => {
+  //   setIsUser("user");
+  //   setIsTeam("");
+  // };
+  // const isTeamFunction = () => {
+  //   setIsTeam("team");
+  //   setIsUser("");
+  // };
+  const register = (e) => {
+    e.preventDefault();
 
-  const onSubmit = data => {
-    setUser(data)
+    if (passWord !== confirmPassword) {
+      setError("Password and Confirm Password is not same");
+    } else {
+      emailPassSignIn(email, passWord, navigate, name);
+    }
   };
 
-  const [token] = useToken(user)
-
-  useEffect(() => {
-    if (token) {
-      navigate('/home');
-    }
-  }, [token, navigate])
-
-  console.log(token);
   return (
     <div className="container">
       <div className="row row-cols-lg-2 login d-flex align-items-center ">
@@ -34,91 +44,87 @@ const Register = () => {
         </div>
         <div className="d-flex justify-content-center login-input">
           <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={register}>
               <h5>Registration form</h5>
               <br />
               <div>
-                <input placeholder="Enter Name" type="text"
-                  {...register("name", {
-                    required: {
-                      value: true,
-                      message: 'Name is Required'
-                    }
-                  })} />
-                <br />
-                <label className="label">
-                  {errors.name?.type === 'required' && <span className="label-text-alt text-red-500">{errors.name.message}</span>}
-                </label>
+                <input
+                  placeholder="Enter Name"
+                  type="text"
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
               </div>
               <br />
               <br />
               <div>
-                <input placeholder="Enter email" type="email"
-                  {...register("email", {
-                    required: {
-                      value: true,
-                      message: 'Email is Required'
-                    }
-                  })} />
-                <br />
-                <label className="label">
-                  {errors.email?.type === 'required' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
-                </label>
+                <input
+                  placeholder="Enter email"
+                  type="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
               <br />
               <br />
               <div>
-                <input placeholder="Enter Team" type="text"
-                  {...register("team", {
-                    required: {
-                      value: true,
-                      message: 'Team is Required'
-                    }
-                  })} />
-                <br />
-                <label className="label">
-                  {errors.team?.type === 'required' && <span className="label-text-alt text-red-500">{errors.team.message}</span>}
-                </label>
+                <input
+                  placeholder="Enter Password"
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
               </div>
               <br />
               <br />
               <div>
-                <input placeholder="Enter Password" type="password"
-                  {...register("password", {
-                    required: {
-                      value: true,
-                      message: 'Password is Required'
-                    }
-                  })} />
+                <input
+                  placeholder="Confirm Password"
+                  type="password"
+                  onChange={(e) => setConfirmPassowrd(e.target.value)}
+                  required
+                />
                 <br />
-                <label className="label">
-                  {errors.password?.type === 'required' && <span className="label-text-alt text-red-500">{errors.password.message}</span>}
-                </label>
               </div>
-              <br />
-              <br />
-              <div>
-                <input placeholder="Confirm Password" type="password"
-                  {...register("cpassword", {
-                    required: {
-                      value: true,
-                      message: 'Confirm Password is Required'
-                    }
-                  })} />
-                <br />
-                <label className="label">
-                  {errors.cpassword?.type === 'required' && <span className="label-text-alt text-red-500">{errors.cpassword.message}</span>}
+              {/* <h5>Register as a?</h5> */}
+              {/* radio  */}
+              {/* <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault1"
+                  onClick={isUserFunction}
+                />
+                <label class="form-check-label" for="flexRadioDefault1">
+                  User
                 </label>
-              </div>
-              <br />
-              {signInError}
+              </div> */}
+              {/* <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault2"
+                  checked
+                  onClick={isTeamFunction}
+                />
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Team
+                </label>
+              </div> */}
               <br />
               <NavLink to="/login" className="navLink ">
                 Already have account?
               </NavLink>
-
               <br />
-              <input type="submit" value="Register" className="login-btn  pt-2 pb-2 w-100 rounded mt-2" />
+              <input
+                type="submit"
+                value="Register"
+                className="login-btn  pt-2 pb-2 w-100 rounded mt-2"
+              />
+              <br />
+              <p>{error}</p>
             </form>
           </div>
         </div>

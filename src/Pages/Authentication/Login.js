@@ -1,35 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Authentication.css";
 import loginImage from "../../image/login.png";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import useToken from "../../hooks/useToken";
+import { NavLink, useNavigate } from "react-router-dom";
+import UseAuth from "../Context/UseAuth";
 
 const Login = () => {
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  let from = location.state?.from?.pathname || "/";
-  const [user, setUser] = useState('');
-  let signInError;
-
-  const { register, formState: { errors }, handleSubmit } = useForm();
-
-  const onSubmit = data => {
-    setUser(data)
+  const { emailPassLogIn } = UseAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  let navigate = useNavigate();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    console.log(email, password);
+    emailPassLogIn(email, password, navigate);
   };
-
-  const [token] = useToken(user)
-
-  useEffect(() => {
-    if (token) {
-      navigate('/home');
-    }
-  }, [token, navigate])
-
-  console.log(token);
-
   return (
     <div className="container">
       <div className="row row-cols-lg-2 login d-flex align-items-center ">
@@ -38,47 +22,40 @@ const Login = () => {
         </div>
         <div className="d-flex justify-content-center login-input">
           <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleLogin}>
               <h5>Login form</h5>
               <br />
 
               <div>
-                <input placeholder="Enter email" type="email"
-                  {...register("email", {
-                    required: {
-                      value: true,
-                      message: 'Email is Required'
-                    }
-                  })} />
-                <br />
-                <label className="label">
-                  {errors.email?.type === 'required' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
-                </label>
+                <input
+                  placeholder="Enter email"
+                  type="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
               <br />
               <br />
               <div>
-                <input placeholder="Enter Password" type="password"
-                  {...register("password", {
-                    required: {
-                      value: true,
-                      message: 'Password is Required'
-                    }
-                  })} />
-                <br />
-                <label className="label">
-                  {errors.password?.type === 'required' && <span className="label-text-alt text-red-500">{errors.password.message}</span>}
-                </label>
+                <input
+                  placeholder="Enter Password"
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
               </div>
-              <br />
-              {signInError}
+
               <br />
               <NavLink to="/register" className="navLink ">
                 Didn't have account?
               </NavLink>
 
               <br />
-              <input type="submit" value="Login" className="login-btn  pt-2 pb-2 w-100 rounded mt-2" />
+              <input
+                type="submit"
+                value="Login"
+                className="login-btn  pt-2 pb-2 w-100 rounded mt-2"
+              />
             </form>
           </div>
         </div>

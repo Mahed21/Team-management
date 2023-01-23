@@ -1,0 +1,24 @@
+.home {
+  background-image: url("../../image/sports.gif");
+  height: 60vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.btn {
+  background-color: #18191b;
+  color: white;
+}
+.btn:hover {
+  background-color: #ffa800;
+}
+.active-player {
+  background-color: #ffa800;
+  color: white;
+}
+.team-details {
+  min-height: 60vh;
+}
+.teamMember {
+  min-height: 60vh;
+}
